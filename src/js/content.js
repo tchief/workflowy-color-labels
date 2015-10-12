@@ -36,11 +36,17 @@ function colorizeTree($root) {
 		var tag = $elm.text();
 		var $elmToColor;
 		
-		var cssReset = { 'color': '', 'background-color': '' };
+		var cssReset = { 'color': '', 'background-color': '', 'background-image': '' };
 
 		var opt = labelMap.labels[tag];
 		
 		if (opt) { 
+			var css = jQuery.extend({}, cssReset);
+			if (opt.bulletfg) {
+				css['background-image'] = colorUtil.getBulletImageUrl(opt.bulletfg);		
+				$elm.parent().parent().prev().css(css).addClass(marker);
+			}		
+
 			var css = jQuery.extend({}, cssReset);
 			if (opt.tagfg)
 				css['color'] = opt.tagfg;
@@ -72,6 +78,8 @@ function colorizeTree($root) {
 			// however, this is not the case for coloring 'text', so we need to check
 			if ($elm.parent().parent().hasClass(marker))
 				$elm.parent().parent().css(cssReset).removeClass(marker);
+			if ($elm.parent().parent().prev().hasClass(marker))
+				$elm.parent().parent().prev().css(cssReset).removeClass(marker);
 		}
 		
 //		// If there is a defined label, process it and color us

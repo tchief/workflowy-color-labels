@@ -48,20 +48,22 @@ function createEditor(board) {
 			settingEdited: null,
 			mainDiv   : board,
 			fields    : {
-				etag	: $('#etag'   , board),
-				etagfg	: $('#etagfg' , board),
-				etagbg	: $('#etagbg' , board),
-				etagnu	: $('#etagnu' , board),
-				etext	: $('#etext'  , board),
-				etextfg	: $('#etextfg', board),
-				etextbg	: $('#etextbg', board)
+				etag	 : $('#etag'     , board),
+				etagfg	 : $('#etagfg'   , board),
+				etagbg	 : $('#etagbg'   , board),
+				etagnu	 : $('#etagnu'   , board),
+				etext	 : $('#etext'    , board),
+				etextfg	 : $('#etextfg'  , board),
+				etextbg	 : $('#etextbg'  , board),
+				ebulletfg: $('#ebulletfg', board)
 			},
 			
 			pickers: {
-				btagfg	: $('#btagfg' , board),
-				btagbg	: $('#btagbg' , board),
-				btextfg	: $('#btextfg', board),
-				btextbg	: $('#btextbg', board),
+				btagfg	 : $('#btagfg'	  , board),
+				btagbg	 : $('#btagbg' 	  , board),
+				btextfg	 : $('#btextfg'	  , board),
+				btextbg	 : $('#btextbg'	  , board),
+				bbulletfg: $('#bbulletfg' , board),
 				palette: [
 					        ["#000","#444","#666","#999","#ccc","#eee","#f3f3f3","#fff"],
 					        ["#f00","#f90","#ff0","#0f0","#0ff","#00f","#90f","#f0f"],
@@ -99,6 +101,9 @@ function createEditor(board) {
 				
 				opts['change'] = function(color) { fields.etextbg.val(color.toHexString()).keyup(); };
 				pickers.btextbg.spectrum(opts);
+
+				opts['change'] = function(color) { fields.ebulletfg.val(color.toHexString()).keyup(); };
+				pickers.bbulletfg.spectrum(opts);
 				
 			},
 			
@@ -264,20 +269,22 @@ function createSetting(settingDiv, val) {
 				// Note: Field to val mappings are
 				// filed: oNAME, val: NAME
 				// but we avoid automatic things here to have a proper list
-				oname   : $('.oname'  , settingDiv),
-				otag	: $('.otag'   , settingDiv),
-				otagfg	: $('.otagfg' , settingDiv),
-				otagbg	: $('.otagbg' , settingDiv),
-				otagnu	: $('.otagnu' , settingDiv),
-				otext	: $('.otext'  , settingDiv),
-				otextfg	: $('.otextfg', settingDiv),
-				otextbg	: $('.otextbg', settingDiv)
+				oname    : $('.oname'    , settingDiv),
+				otag	 : $('.otag'     , settingDiv),
+				otagfg	 : $('.otagfg'   , settingDiv),
+				otagbg	 : $('.otagbg'   , settingDiv),
+				otagnu	 : $('.otagnu'   , settingDiv),
+				otext	 : $('.otext'    , settingDiv),
+				otextfg	 : $('.otextfg'  , settingDiv),
+				otextbg	 : $('.otextbg'  , settingDiv),
+				obulletfg: $('.obulletfg', settingDiv)
 			},
 			divs   : {
 				tag      : $('.contentTag'    , settingDiv),
 				tagText  : $('.contentTagText', settingDiv),
 				text     : $('.content'       , settingDiv),
-				textText : $('.contentText'    , settingDiv)
+				textText : $('.contentText'   , settingDiv),
+				bullet   : $('.bullet'        , settingDiv)
 			},
 			
 			/**
@@ -337,10 +344,17 @@ function createSetting(settingDiv, val) {
 				
 				var cssReset = {
 					'color': '',
-					'background-color': ''
+					'background-color': '',
+					'background-image': ''
 				};
 				
 //				if (fields.otag.val()) {
+					var css = $.extend({}, cssReset);
+					if (fields.obulletfg.val()) {
+						css['background-image'] = colorUtil.getBulletImageUrl(fields.obulletfg.val());		
+						this.divs.bullet.css(css);
+					}	
+
 					var css = $.extend({}, cssReset);
 					if (fields.otagfg.val())
 						css['color'] = fields.otagfg.val();
