@@ -150,6 +150,11 @@ var colorUtil = {
 				res[i] = colorUtil.arrayToHex(bgArr);
 			});
 			return res;
+		},
+
+		getBulletImageUrl: function (color) {
+		  return 'url("' + "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 100 100'><circle cx='50' cy='50' r='19' style='fill: "
+		  	+ color + ";'/></svg>" + '")'
 		}
 }
 
